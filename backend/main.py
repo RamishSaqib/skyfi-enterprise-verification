@@ -13,13 +13,12 @@ import os
 origins = [
     "http://localhost:5173",
     "http://localhost:3000",
+    "https://skyfi-verification-frontend.onrender.com",
 ]
 
 # Add production origin if set
 if "FRONTEND_HOST" in os.environ:
     origins.append(f"https://{os.environ['FRONTEND_HOST']}")
-elif "FRONTEND_URL" in os.environ:
-    origins.append(os.environ["FRONTEND_URL"])
 
 app.add_middleware(
     CORSMiddleware,
