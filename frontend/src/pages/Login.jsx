@@ -15,8 +15,6 @@ export default function Login({ setToken }) {
         setLoading(true);
         setError('');
 
-        // Debugging: Check what URL we are hitting
-        alert(`Attempting to connect to: ${API_URL}`);
 
         try {
             const formData = new URLSearchParams();
