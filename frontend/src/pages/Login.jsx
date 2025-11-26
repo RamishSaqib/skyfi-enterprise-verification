@@ -5,18 +5,18 @@ import { ShieldCheck } from 'lucide-react';
 import { API_URL } from '../config';
 
 export default function Login({ setToken }) {
-    const [email, setEmail] = useState('admin@skyfi.com');
-    const [password, setPassword] = useState('secret');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError('');
         setLoading(true);
+        setError('');
 
         try {
-            const formData = new FormData();
+            const formData = new URLSearchParams();
             formData.append('username', email);
             formData.append('password', password);
 
@@ -25,9 +25,15 @@ export default function Login({ setToken }) {
             });
 
             setToken(response.data.access_token);
-        } catch (err) {
-            console.error('Login error:', err);
-            setError('Invalid credentials. Please try again.');
+        } catch (error) {
+            console.error('Login error:', error);
+            if (error.response && error.response.status === 401) {
+                setError('Invalid email or password.');
+            } else if (error.message === 'Network Error') {
+                setError('Unable to connect to the server. Please check if the backend is running.');
+            } else {
+                setError('An error occurred. Please try again.');
+            }
         } finally {
             setLoading(false);
         }
