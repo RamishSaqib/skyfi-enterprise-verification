@@ -2,6 +2,8 @@ import { useState } from 'react';
 import axios from 'axios';
 import { ShieldCheck } from 'lucide-react';
 
+import { API_URL } from '../config';
+
 export default function Login({ setToken }) {
     const [email, setEmail] = useState('admin@skyfi.com');
     const [password, setPassword] = useState('secret');
@@ -18,8 +20,7 @@ export default function Login({ setToken }) {
             formData.append('username', email);
             formData.append('password', password);
 
-            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
-            const response = await axios.post(`${apiUrl}/token`, formData, {
+            const response = await axios.post(`${API_URL}/token`, formData, {
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
             });
 

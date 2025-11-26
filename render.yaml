@@ -9,22 +9,21 @@ services:
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.0
-      - key: FRONTEND_URL
+      - key: FRONTEND_HOST
         fromService:
           type: web
           name: skyfi-verification-frontend
-          property: url
+          property: host
 
   # Frontend Service
   - type: web
     name: skyfi-verification-frontend
     env: static
-    region: oregon
     buildCommand: cd frontend && npm install && npm run build
     staticPublishPath: frontend/dist
     envVars:
-      - key: VITE_API_URL
+      - key: VITE_API_HOST
         fromService:
           type: web
           name: skyfi-verification-backend
-          property: url
+          property: host

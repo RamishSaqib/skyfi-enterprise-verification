@@ -16,7 +16,9 @@ origins = [
 ]
 
 # Add production origin if set
-if "FRONTEND_URL" in os.environ:
+if "FRONTEND_HOST" in os.environ:
+    origins.append(f"https://{os.environ['FRONTEND_HOST']}")
+elif "FRONTEND_URL" in os.environ:
     origins.append(os.environ["FRONTEND_URL"])
 
 app.add_middleware(

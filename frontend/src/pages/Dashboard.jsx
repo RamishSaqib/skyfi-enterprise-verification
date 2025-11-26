@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Plus, Search, FileText, CheckCircle, AlertTriangle, XCircle, LogOut } from 'lucide-react';
 import ReportModal from '../components/ReportModal';
+import { API_URL } from '../config';
 
 export default function Dashboard({ token, setToken }) {
     const [companies, setCompanies] = useState([]);
@@ -59,8 +60,6 @@ export default function Dashboard({ token, setToken }) {
         setSortConfig({ key, direction });
     };
 
-    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
-
     useEffect(() => {
         if (token) {
             fetchCompanies();
@@ -69,7 +68,7 @@ export default function Dashboard({ token, setToken }) {
 
     const fetchCompanies = async () => {
         try {
-            const response = await axios.get(`${apiUrl}/companies`, {
+            const response = await axios.get(`${API_URL}/companies`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setCompanies(response.data);
@@ -82,7 +81,7 @@ export default function Dashboard({ token, setToken }) {
 
     const handleReview = async (status) => {
         try {
-            await axios.post(`${apiUrl}/companies/${selectedCompany.id}/review?status=${status}`, {}, {
+            await axios.post(`${API_URL}/companies/${selectedCompany.id}/review?status=${status}`, {}, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setSelectedCompany(null);
@@ -95,7 +94,7 @@ export default function Dashboard({ token, setToken }) {
     const handleReverify = async () => {
         if (!selectedCompany) return;
         try {
-            const response = await axios.post(`${apiUrl}/companies/${selectedCompany.id}/reverify`, {}, {
+            const response = await axios.post(`${API_URL}/companies/${selectedCompany.id}/reverify`, {}, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setSelectedCompany(response.data); // Update modal with new data
@@ -107,7 +106,7 @@ export default function Dashboard({ token, setToken }) {
 
     const handleUpdate = async (id, data) => {
         try {
-            const response = await axios.put(`${apiUrl}/companies/${id}`, data, {
+            const response = await axios.put(`${API_URL}/companies/${id}`, data, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setSelectedCompany(response.data);
@@ -121,7 +120,7 @@ export default function Dashboard({ token, setToken }) {
         e.preventDefault();
         setVerifying(true);
         try {
-            await axios.post(`${apiUrl}/verify`, newCompany, {
+            await axios.post(`${API_URL}/verify`, newCompany, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setShowModal(false);
