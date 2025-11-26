@@ -161,10 +161,4 @@ async def update_company(company_id: str, company_update: CompanyUpdate, current
 async def get_companies(current_user: User = Depends(get_current_user)):
     return fake_companies_db
 
-@app.get("/")
-def read_root():
-    return {"message": "SkyFi Enterprise Verification API is running"}
 
-@app.get("/health")
-def health_check():
-    return {"status": "healthy"}
